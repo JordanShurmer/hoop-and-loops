@@ -1,3 +1,13 @@
+# build directory
+public/
+
+# firebase
+.firebaserc
+.firebase/
+
+# semantic. no need to vc this
+semantic/
+
 # Logs
 logs
 *.log

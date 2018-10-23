@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta charset="utf-8">
+    <title>Hoop & Loops Admin</title>
+
+    <link rel="stylesheet" href="/semantic.min.css">
+    <link rel="stylesheet" href="/admin.css">
+</head>
+
+<body>
+<div class="ui basic inverted teal segment">
+    <nav class="ui secondary icon menu">
+        <div class="ui container">
+            <span class="header item" href="#" class="navbar-item is-size-1 ">
+                <i class="circle notch icon"></i>
+                H&L
+            </span>
+            <span class="item">Admin</span>
+            <div class="right floated item">
+                {{#if loggedin}}<button id="logout" class="ui basic black button">Logout</button>{{/if}}
+            </div>
+        </div>
+    </nav>
+</div>
+
+<main class="products ui container">
+
+    {{{ body }}}
+
+</main>
+
+<script src="/__/firebase/5.5.4/firebase-app.js"></script>
+<script src="/__/firebase/5.5.4/firebase-auth.js"></script>
+<script src="/__/firebase/5.5.4/firebase-firestore.js"></script>
+<script src="/__/firebase/5.5.4/firebase-storage.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="/semantic.min.js"></script>
+<script src="/admin.js"></script>
+</body>
+</html>

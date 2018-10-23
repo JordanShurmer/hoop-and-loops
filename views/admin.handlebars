@@ -1,0 +1,63 @@
+<div class="ui four doubling link cards">
+    <div class="new product card">
+        <div class="ui fluid image">
+            <img src="https://via.placeholder.com/697x929?text=%2B" alt="New Product">
+        </div>
+        <div class="content">
+            <p class="header">New Product</p>
+        </div>
+    </div>
+
+    {{#each products}}
+        <div class="card">
+            <div class="ui fluid image">
+                <img src="{{ image }}" alt="{{ name }}">
+            </div>
+            <div class="content">
+                <p class="header">
+                    {{ name }}
+                </p>
+                <p class="price meta">
+                    {{ price }}
+                </p>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+<div class="ui small modal">
+    <i class="close icon"></i>
+    <div class="header">
+        New Product
+    </div>
+    <div class="content">
+        <div class="ui form">
+            <div class="field">
+                <img class="ui image" src="https://via.placeholder.com/300x300?text=%2B" alt="Upload">
+                <label for="image-input">Upload image</label>
+                <input id="image-input" type="file" accept="image/jpeg">
+            </div>
+
+            <div class="field">
+                <label for="name-input">Product Name</label>
+                <input id="name-input" name="name" type="text">
+            </div>
+            <div class="field">
+                <label for="description-input">Description</label>
+                <textarea id="description-input" name="description" rows="4"></textarea>
+            </div>
+            <div class="ui fluid labeled input field">
+                <label for="price-input" class="ui label">$</label>
+                <input id="price-input" type="number" name="price" placeholder="Price">
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <div class="ui buttons">
+            <button class="ui cancel button">Cancel</button>
+            <div class="or"></div>
+            <button class="ui positive approve button">Submit</button>
+        </div>
+    </div>
+</div>
