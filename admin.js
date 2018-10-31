@@ -3,14 +3,14 @@ import $ from 'jquery';
 import firebase from 'firebase/app';
 
 // Initialize Firebase
-firebase.initializeApp({
-    apiKey: "AIzaSyB75AkTLnuLYhRGVVUNb_b2rlzp7wSCSOs",
-    authDomain: "hoop-and-loops.firebaseapp.com",
-    databaseURL: "https://hoop-and-loops.firebaseio.com",
-    projectId: "hoop-and-loops",
-    storageBucket: "hoop-and-loops.appspot.com",
-    messagingSenderId: "876021813703"
-});
+// firebase.initializeApp({
+//     apiKey: "AIzaSyB75AkTLnuLYhRGVVUNb_b2rlzp7wSCSOs",
+//     authDomain: "hoop-and-loops.firebaseapp.com",
+//     databaseURL: "https://hoop-and-loops.firebaseio.com",
+//     projectId: "hoop-and-loops",
+//     storageBucket: "hoop-and-loops.appspot.com",
+//     messagingSenderId: "876021813703"
+// });
 // Initialize Cloud Firestore
 const db = firebase.firestore();
 // Disable deprecated features
