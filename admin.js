@@ -1,3 +1,4 @@
+import './admin.css';
 import $ from 'jquery';
 import firebase from 'firebase/app';
 

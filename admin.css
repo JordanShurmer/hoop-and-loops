@@ -1,0 +1,13 @@
+.products .card .image > img {
+    height: 250px;
+    max-height: 50vh;
+    object-fit: cover;
+}
+
+.price:before {
+    content: '$';
+}
+
+.logging-in .column {
+    max-width: 400px;
+}

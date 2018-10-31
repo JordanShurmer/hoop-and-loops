@@ -18,8 +18,10 @@
     "handlebars": "^4.0.12"
   },
   "devDependencies": {
+    "css-loader": "^1.0.1",
+    "jquery": "^3.3.1",
+    "mini-css-extract-plugin": "^0.4.4",
     "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "jquery": "^3.3.1"
+    "webpack-cli": "^3.1.2"
   }
 }
