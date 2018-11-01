@@ -1,32 +1,45 @@
 <div class="ui four doubling link cards">
     <div class="new product card">
+        <div class="heading content">
+            <span class="name">New Product</span>
+        </div>
         <div class="ui fluid image">
-            <img src="https://via.placeholder.com/697x929?text=%2B" alt="New Product">
+            <img class="promo" src="https://via.placeholder.com/697x929?text=%2B" alt="New Product">
         </div>
         <div class="content">
-            <p class="header">New Product</p>
         </div>
+        <div class="extra content"></div>
     </div>
 
     {{#each products}}
-        <div class="product card">
+        <div class="product card" data-product-id="{{id}}">
+            <div class="heading content">
+                <img class="ui avatar image" src="https://semantic-ui.com/images/avatar2/small/molly.png" alt="Bethany">
+                <span class="name">{{ name }}</span>
+                <i class="right floated trash alternate outline icon"></i>
+            </div>
             <div class="ui fluid image">
-                <img src="{{ image }}" alt="{{ name }}">
+                <img class="promo" src="{{ image }}" alt="{{ name }}">
             </div>
             <div class="content">
+                <span class="ui teal ribbon label price">
+                    ${{ price }}
+                </span>
                 <span class="name">{{ name }}</span>
-                <span class="category meta">{{ category.label }}</span>
-                <p class="price">
-                    {{ price }}
-                </p>
                 <div class="description">
+                    {{ description }}
                 </div>
+            </div>
+            <div class="extra content">
+                {{#each labels}}
+                    <span class="ui category label">{{ label }}</span>
+                {{/each}}
             </div>
         </div>
     {{/each}}
 </div>
 
-<div class="ui small modal">
+<div class="ui modal">
     <i class="close icon"></i>
     <div class="header">
         New Product
@@ -44,17 +57,12 @@
                     <input id="name-input" name="name" type="text">
                 </div>
                 <div class="field">
-                    <label for="category-input">Category</label>
-                    <div class="ui category selection dropdown">
-                        <input type="hidden" name="category">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Category</div>
-                        <div class="menu">
-                            <!--TODO: Load categories dynamically-->
-                            <div class="item" data-value="categories/embroidery">Embroidery</div>
-                            <div class="item" data-value="categories/knit">Knitting</div>
-                        </div>
-                    </div>
+                    <label for="labels-input">Labels</label>
+                    <select name="labels" multiple id="labels-input">
+                        {{#each categories}}
+                            <option value="categories/{{id}}">{{ label }}</option>
+                        {{/each}}
+                    </select>
                 </div>
                 <div class="ui field">
                     <label>Price</label>

@@ -1,13 +1,21 @@
-.products .card .image > img {
-    height: 250px;
-    max-height: 50vh;
+.products .product .image > img.promo {
+    height: 225px;
+    max-height: 30vh;
     object-fit: cover;
-}
-
-.price:before {
-    content: '$';
 }
 
 .logging-in .column {
     max-width: 400px;
+}
+
+.product .name {
+    font-weight: bold;
+}
+
+.product .heading {
+    max-height: 55px;
+}
+
+.product .trash.icon:hover {
+    color: #db2828;
 }

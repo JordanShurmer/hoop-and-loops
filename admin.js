@@ -25,56 +25,81 @@ let imageFile = {
 // Init the dropdown functionality
 $('.ui.dropdown').dropdown();
 
-// Init the new product modal
+
+// The Delete icon
+$('.product .trash.icon').click(async function(event) {
+    event.stopPropagation();
+    const $product = $(this).closest('.product');
+    const productId = $product.data('productId');
+    try {
+        console.debug(`Deleting products/${productId}`);
+        await db.doc(`products/${productId}`).delete();
+        console.debug(`%c Successfully deleted ${productId}`, "color: mediumseagreen; font-weight: bold;");
+        $product.remove();
+    } catch (reason) {
+        console.error(`Could not delete ${productId}`, reason);
+    }
+});
+
+
+// Init the product create/edit modal
 $('.ui.modal').modal({
     blurring: true, //looks cool
 
-    // Submit button on modal was clicked
-    // * Create new product
-    // * Upload image (using id of product)
-    // * Refresh products
-    // * return true to ensure the modal closes
     async onApprove() {
         try {
-            const newProductData = {
+
+            const productData = {
                 name: $('#name-input').val(),
                 description: $('#description-input').val(),
-                category: db.doc($('.category.dropdown').dropdown('get value')),
+                labels: $('#labels-input').dropdown('get value').map(ref => db.doc(ref)),
                 price: $('#price-input').val(),
             };
-            console.debug({newProductData});
-            newProductRef = await db.collection("products").add(newProductData);
+            console.debug({productData});
+            console.debug("modal", this);
+            if ($(this).hasClass('new')) {
+                newProductRef = await db.collection("products").add(productData);
 
-            console.debug("Uploading Image to storage");
-            const imageRef = storageRef.child(`products/${newProductRef.id}/promo.${imageFile.ext}`);
-            const imageSnapshot = await imageRef.put(imageFile.file);//, {contentType: imageFile.file.type})
+                console.debug("Uploading Image to storage");
+                const imageRef = storageRef.child(`products/${newProductRef.id}/promo.${imageFile.ext}`);
+                const imageSnapshot = await imageRef.put(imageFile.file);//, {contentType: imageFile.file.type})
 
-            const image = await imageRef.getDownloadURL();
-            console.debug("Setting image reference on new product", {image});
-            await newProductRef.set({image}, {merge: true});
+                const image = await imageRef.getDownloadURL();
+                console.debug("Setting image reference on new product", {image});
+                await newProductRef.set({image}, {merge: true});
+            } else {
+                const productId = $(this).data('productId');
+                console.debug(`Updating products/${productId}`);
+                await db.doc(`products/${productId}`).update(productData);
+                console.debug(`%c Successfully Updated ${productId}`, 'color: mediumseagreen; font-weight: bold');
+            }
 
         } catch (reason) {
-            console.error("Unable to create product", {reason});
+            console.error("Unable to create product", reason);
         }
     }
 });
 
-// Launch the modal
+// Populate and Launch the modal
 $('.product.card').click(function () {
-   $('.category.dropdown').dropdown('clear');
+    const $modal = $('.ui.modal');
+   $('#labels-input').dropdown('clear');
+   $modal.removeClass('new');
     if ($(this).hasClass('new')) {
+        $modal.addClass('new');
         $('#image-input').attr('src', "https://via.placeholder.com/300x300?text=%2B");
         $('#name-input').val('');
         $('#description-input').val('');
         $('#price-input').val('');
     } else {
-        $('#image-input').attr('src', $(this).find('img').attr('src'));
+        $modal.data('product-id', $(this).data('productId'));
+        $('#image-input').attr('src', $(this).find('img.promo').attr('src'));
         $('#name-input').val($(this).find('.name').text().trim());
         $('#description-input').val($(this).find('.description').text().trim());
         $('#price-input').val(parseInt($(this).find('.price').text().trim()));
-        $('.category.dropdown').dropdown('set selected', $(this).find('.category').text().trim());
+        $('#labels-input').dropdown('set selected', $(this).find('.category').text().trim());
     }
-    $('.ui.modal').modal('show');
+    $modal.modal('show');
 });
 
 
