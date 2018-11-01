@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/JordanShurmer/hoop-and-loops/issues"
   },
-  "homepage": "https://github.com/JordanShurmer/hoop-and-loops#readme"
+  "homepage": "https://github.com/JordanShurmer/hoop-and-loops#readme",
+  "devDependencies": {
+    "concurrently": "^4.0.1"
+  }
 }

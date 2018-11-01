@@ -1,5 +1,5 @@
 {
-  "name": "hoops-and-loops",
+  "name": "hoops-and-loops-admin",
   "version": "1.0.0",
   "description": "stuff to make the website for hoop and loops",
   "main": "index.js",
@@ -7,14 +7,14 @@
     "build": "webpack --mode=production",
     "postinstall": "cd semantic && gulp build",
     "prestart": "webpack --mode=development",
-    "start": "firebase serve",
+    "start": "concurrently --kill-others \"firebase serve\" \"webpack --watch --mode=development\"",
     "deploy": "npm run build && firebase deploy"
   },
   "engines": {
     "node": "8"
   },
   "author": "",
-  "license": "ISC",
+  "license": "Unlicense",
   "dependencies": {
     "cookie-parser": "^1.4.3",
     "express": "^4.16.4",
@@ -25,6 +25,7 @@
     "handlebars": "^4.0.12"
   },
   "devDependencies": {
+    "concurrently": "^4.0.1",
     "css-loader": "^1.0.1",
     "jquery": "^3.3.1",
     "mini-css-extract-plugin": "^0.4.4",
