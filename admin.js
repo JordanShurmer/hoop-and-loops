@@ -2,15 +2,6 @@ import './admin.css';
 import $ from 'jquery';
 import firebase from 'firebase/app';
 
-// Initialize Firebase
-// firebase.initializeApp({
-//     apiKey: "AIzaSyB75AkTLnuLYhRGVVUNb_b2rlzp7wSCSOs",
-//     authDomain: "hoop-and-loops.firebaseapp.com",
-//     databaseURL: "https://hoop-and-loops.firebaseio.com",
-//     projectId: "hoop-and-loops",
-//     storageBucket: "hoop-and-loops.appspot.com",
-//     messagingSenderId: "876021813703"
-// });
 // Initialize Cloud Firestore
 const db = firebase.firestore();
 // Disable deprecated features
@@ -30,6 +21,10 @@ let imageFile = {
     file: undefined,
 };
 
+
+// Init the dropdown functionality
+$('.ui.dropdown').dropdown();
+
 // Init the new product modal
 $('.ui.modal').modal({
     blurring: true, //looks cool
@@ -41,12 +36,14 @@ $('.ui.modal').modal({
     // * return true to ensure the modal closes
     async onApprove() {
         try {
-            console.debug("Creating empty new product");
-            newProductRef = await db.collection("products").add({
+            const newProductData = {
                 name: $('#name-input').val(),
                 description: $('#description-input').val(),
+                category: db.doc($('.category.dropdown').dropdown('get value')),
                 price: $('#price-input').val(),
-            });
+            };
+            console.debug({newProductData});
+            newProductRef = await db.collection("products").add(newProductData);
 
             console.debug("Uploading Image to storage");
             const imageRef = storageRef.child(`products/${newProductRef.id}/promo.${imageFile.ext}`);
@@ -62,9 +59,21 @@ $('.ui.modal').modal({
     }
 });
 
-// New Product got clicked
-// * Launch the modal
-$('.new.product.card').click(async function () {
+// Launch the modal
+$('.product.card').click(function () {
+   $('.category.dropdown').dropdown('clear');
+    if ($(this).hasClass('new')) {
+        $('#image-input').attr('src', "https://via.placeholder.com/300x300?text=%2B");
+        $('#name-input').val('');
+        $('#description-input').val('');
+        $('#price-input').val('');
+    } else {
+        $('#image-input').attr('src', $(this).find('img').attr('src'));
+        $('#name-input').val($(this).find('.name').text().trim());
+        $('#description-input').val($(this).find('.description').text().trim());
+        $('#price-input').val(parseInt($(this).find('.price').text().trim()));
+        $('.category.dropdown').dropdown('set selected', $(this).find('.category').text().trim());
+    }
     $('.ui.modal').modal('show');
 });
 

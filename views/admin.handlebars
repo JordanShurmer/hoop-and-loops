@@ -9,17 +9,18 @@
     </div>
 
     {{#each products}}
-        <div class="card">
+        <div class="product card">
             <div class="ui fluid image">
                 <img src="{{ image }}" alt="{{ name }}">
             </div>
             <div class="content">
-                <p class="header">
-                    {{ name }}
-                </p>
-                <p class="price meta">
+                <span class="name">{{ name }}</span>
+                <span class="category meta">{{ category.label }}</span>
+                <p class="price">
                     {{ price }}
                 </p>
+                <div class="description">
+                </div>
             </div>
         </div>
     {{/each}}
@@ -30,25 +31,42 @@
     <div class="header">
         New Product
     </div>
-    <div class="content">
-        <div class="ui form">
+    <div class="scrolling content">
+        <div class="ui equal width form">
             <div class="field">
-                <img class="ui image" src="https://via.placeholder.com/300x300?text=%2B" alt="Upload">
+                <img id="image-input" class="ui small image" src="https://via.placeholder.com/300x300?text=%2B" alt="Upload">
                 <label for="image-input">Upload image</label>
                 <input id="image-input" type="file" accept="image/jpeg">
             </div>
-
-            <div class="field">
-                <label for="name-input">Product Name</label>
-                <input id="name-input" name="name" type="text">
+            <div class="fields">
+                <div class="field">
+                    <label for="name-input">Product Name</label>
+                    <input id="name-input" name="name" type="text">
+                </div>
+                <div class="field">
+                    <label for="category-input">Category</label>
+                    <div class="ui category selection dropdown">
+                        <input type="hidden" name="category">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Category</div>
+                        <div class="menu">
+                            <!--TODO: Load categories dynamically-->
+                            <div class="item" data-value="categories/embroidery">Embroidery</div>
+                            <div class="item" data-value="categories/knit">Knitting</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ui field">
+                    <label>Price</label>
+                    <div class="ui labeled input">
+                        <label for="price-input" class="ui label">$</label>
+                        <input id="price-input" type="number" name="price" placeholder="Price">
+                    </div>
+                </div>
             </div>
             <div class="field">
                 <label for="description-input">Description</label>
                 <textarea id="description-input" name="description" rows="4"></textarea>
-            </div>
-            <div class="ui fluid labeled input field">
-                <label for="price-input" class="ui label">$</label>
-                <input id="price-input" type="number" name="price" placeholder="Price">
             </div>
         </div>
     </div>

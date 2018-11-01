@@ -24,10 +24,16 @@ app.get('/admin', (req, res) => {
     admin.auth().verifyIdToken(token)
         .then(decodedIdToken => {
             let products = [];
-            db.collection('products').get().then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    products.push(doc.data());
-                });
+            db.collection('products').get().then(async (querySnapshot) => {
+                await Promise.all(querySnapshot.docs.map(async (doc) => {
+                    //resolve the category references to the categories
+                    const productData = doc.data();
+                    if (productData.category) {
+                        const categoryDocSnapshot = await productData.category.get();
+                        productData.category = categoryDocSnapshot.data();
+                    }
+                    products.push(productData);
+                }));
                 res.render('admin', {
                     'products': products,
                     'loggedin': true
