@@ -4,10 +4,10 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: {
-        admin: './admin.js'
+        client: './client.js'
     },
     output: {
-        path: path.resolve(__dirname, 'public'),
+        path: path.resolve(__dirname, '../public'),
         filename: '[name].js'
     },
     module: {

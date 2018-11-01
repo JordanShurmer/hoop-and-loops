@@ -1,4 +1,4 @@
-import './admin.css';
+import './client.css';
 import $ from 'jquery';
 import firebase from 'firebase/app';
 
