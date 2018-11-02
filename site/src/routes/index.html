@@ -2,16 +2,27 @@
     <h1>Hoop and Loops</h1>
     <div class="ui unstackable items">
         <div class="item">
-            <div class="ui small avatar image">
+            <div class="ui tiny avatar image">
                 <img class="" src="https://semantic-ui.com/images/avatar2/small/molly.png" alt="Bethany">
+                <div class="ui huge horizontal list social links">
+                    <a class="item" href="https://www.instagram.com/hoop.and.loops/" target="_blank">
+                        <i class="instagram icon"></i>
+                    </a>
+                    <a class="item" href="https://www.facebook.com/hoop.and.loops/" target="_blank">
+                        <i class="item facebook square icon"></i>
+                    </a>
+                    <a class="item" href="mailto:hoop.and.loops@gmail.com">
+                        <i class="item envelope icon"></i>
+                    </a>
+                </div>
             </div>
             <div class="content">
                 <div class="header">Bethany Shurmer</div>
-                <div class="description">Hoop and Loops is a store run by me, Bethany Shurmer.</div>
-                <div class="extra">
-                    <i class="instagram icon"></i>
-                    <i class="facebook square icon"></i>
-                    <i class="envelope icon"></i>
+                <div class="description">
+                    <p>
+                        Hoop and Loops is a store run by me, Bethany Shurmer. All of our products are custom and handmade. For more information about
+                        Hoop and Loops check out the <a href="about">About</a> page.
+                    </p>
                 </div>
             </div>
         </div>
@@ -19,22 +30,24 @@
 </section>
 
 <h2 class="ui horizontal divider">Products</h2>
-<div class="ui two item small menu">
-    <div class="ui simple dropdown item">
-        Categories
-        <i class="dropdown icon"></i>
-        <div class="menu">
-            {#each categories as category}
-            <div class="item">{category.label}</div>
-            {/each}
+<section class="products ui stackable teal link cards">
+
+    <div class="ui sticky two item big menu">
+        <div class="ui simple dropdown item">
+            Categories
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                {#each categories as category}
+                <div class="item">{category.label}</div>
+                {/each}
+            </div>
+        </div>
+        <div class="item">
+            <i class="shopping cart icon"></i>
+            <span class="cart count">0</span>
         </div>
     </div>
-    <div class="item">
-        <i class="shopping cart icon"></i>
-        <span class="cart count">0</span>
-    </div>
-</div>
-<section class="products ui link stackable raised teal cards">
+
     {#each products as product}
     <div class="product card">
         <div class="ui image">
@@ -62,17 +75,32 @@
     .info {
         padding: 1rem;
     }
+
     .products {
-        padding-top: 1rem;
+        padding-top: 2rem;
+        position: relative;
+    }
+    .fixed.sticky + .product {
+        margin-top: 4rem;
     }
 
     .product .tag.label {
         float: right;
     }
+
+    .social.links {
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-evenly;
+    }
 </style>
 
 <script>
     export default {
+        oncreate() {
+            $('.ui.sticky.menu').sticky();
+        },
         data() {
             return {
                 products: [
