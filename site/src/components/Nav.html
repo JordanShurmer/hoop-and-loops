@@ -1,0 +1,51 @@
+<nav>
+    <div class="logo">
+        <i class="circle notch icon"></i>
+        H&L
+    </div>
+    <div class="links">
+        <a class='{segment === undefined ? "selected" : ""}' href=".">Home</a>
+        <a class='{segment === "about" ? "selected" : ""}' href="about">About</a>
+    </div>
+</nav>
+
+<style>
+    nav {
+        height: 20vh;
+        background-color: teal;
+        color: whitesmoke;
+
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .selected {
+        border-bottom: 4px solid gold;
+    }
+
+    .logo {
+        color: gold;
+        font-size: x-large;
+        line-height: 10vh;
+        height: 50%;
+    }
+
+    .links {
+        height: 50%;
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-evenly;
+        align-items: flex-end;
+    }
+
+    a {
+        display: inline-block;
+        height: 75%;
+        text-decoration: none;
+        font-size: x-large;
+        color: whitesmoke;
+    }
+</style>

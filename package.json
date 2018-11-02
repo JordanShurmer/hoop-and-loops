@@ -10,8 +10,8 @@
     "deploy:admin": "cd admin && npm run deploy",
     "deploy:site": "",
     "deploy": "npm run deploy:admin && npm run deploy:site",
-    "postinstall": "cd admin && npm install",
-    "postuninstall": "cd admin && npm uninstall"
+    "postinstall": "concurrently \"cd admin && npm install\" \"cd semantic && gulp build\" \"cd site && npm install\"",
+    "postuninstall": "concurrently \"cd admin && npm uninstall\" \"cd site && npm uninstall\""
   },
   "repository": {
     "type": "git",

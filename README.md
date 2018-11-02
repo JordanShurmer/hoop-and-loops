@@ -37,3 +37,7 @@ The project is built/bundled with the most excellent [webpack](https://webpack.j
 
 The design of the site uses [semanti-ui](https://semantic-ui.com/).
 
+## Files and Folders
+
+* ./semantic/ - The semantic-ui code. Created when you `npm install`. Gets built via a `postinstall` npm hook which does `gulp build`
+

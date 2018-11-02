@@ -28,4 +28,3 @@ npm start
 * [./views/](./views) - The handlebars templates used build the admin view
 * [./views/admin.handlebars](./views/admin.handlebars) - The main view that you see after you log in.
 * [./views/login.handlebars](./views/login.handlebars) - The login page. The function code delivers this view unless it detects a valid `__session` cookie
-* ./semantic/ - The semantic-ui code. Created when you `npm install`. Gets built via a `postinstall` npm hook which does `gulp build`

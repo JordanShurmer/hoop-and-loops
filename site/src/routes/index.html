@@ -1,0 +1,116 @@
+<section class="info">
+    <h1>Hoop and Loops</h1>
+    <div class="ui unstackable items">
+        <div class="item">
+            <div class="ui small avatar image">
+                <img class="" src="https://semantic-ui.com/images/avatar2/small/molly.png" alt="Bethany">
+            </div>
+            <div class="content">
+                <div class="header">Bethany Shurmer</div>
+                <div class="description">Hoop and Loops is a store run by me, Bethany Shurmer.</div>
+                <div class="extra">
+                    <i class="instagram icon"></i>
+                    <i class="facebook square icon"></i>
+                    <i class="envelope icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<h2 class="ui horizontal divider">Products</h2>
+<div class="ui two item small menu">
+    <div class="ui simple dropdown item">
+        Categories
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            {#each categories as category}
+            <div class="item">{category.label}</div>
+            {/each}
+        </div>
+    </div>
+    <div class="item">
+        <i class="shopping cart icon"></i>
+        <span class="cart count">0</span>
+    </div>
+</div>
+<section class="products ui link stackable raised teal cards">
+    {#each products as product}
+    <div class="product card">
+        <div class="ui image">
+            <img src="{product.image}" alt="{product.name}">
+        </div>
+        <div class="content">
+            <div class="header">
+                { product.name }
+                <div class="ui teal tag label">${ product.price }</div>
+            </div>
+            <div class="description">
+                { product.description }
+            </div>
+        </div>
+        <div class="extra content">
+            {#each product.labels as category}
+            <span class="ui label">{category.shortLabel}</span>
+            {/each}
+        </div>
+    </div>
+    {/each}
+</section>
+
+<style>
+    .info {
+        padding: 1rem;
+    }
+    .products {
+        padding-top: 1rem;
+    }
+
+    .product .tag.label {
+        float: right;
+    }
+</style>
+
+<script>
+    export default {
+        data() {
+            return {
+                products: [
+                    {
+                        image: 'https://firebasestorage.googleapis.com/v0/b/hoop-and-loops.appspot.com/o/products%2F2FHkBj6WzkCndsMkoGMOAs%2Fpromo.jpg?alt=media&token=3d29def5-3b87-4926-b9df-27e62c1186e2',
+                        name: 'Necklace',
+                        description: 'A pretty necklace made with my embroidery skillz',
+                        labels: [{
+                            label: 'Embroidery',
+                            shortLabel: 'hoops',
+                        }, {
+                            label: 'Jewelry',
+                            shortLabel: 'bling'
+                        }],
+                        price: 120,
+                    },
+                    {
+                        image: 'https://firebasestorage.googleapis.com/v0/b/hoop-and-loops.appspot.com/o/products%2FeCa3ncq3oEijj5rGYFvd%2Fpromo.jpg?alt=media&token=a72edc34-9507-4a9d-9a29-d4125f9df261',
+                        name: 'Seasons',
+                        description: 'A symbol of change',
+                        labels: [{
+                            label: 'Embroidery',
+                            shortLabel: 'hoops',
+                        }],
+                        price: 40,
+                    }
+                ],
+                categories: [
+                    {
+                        label: 'Embroidery',
+                        shortLabel: 'hoops',
+                    },
+                    {
+                        label: 'Jewelry',
+                        shortLabel: 'bling',
+                    }
+                ]
+            }
+        }
+    }
+</script>
