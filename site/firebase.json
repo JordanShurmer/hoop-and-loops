@@ -10,7 +10,7 @@
     "public": "public",
     "rewrites": [
       {
-        "source": "**/**",
+        "source": "/**",
         "function": "app"
       }
     ],
