@@ -1,0 +1,58 @@
+<section class="logging-in ui middle aligned center aligned grid">
+    <div class="column">
+        {#if user}
+        <section class="ui inverted teal segment">
+            <p>
+                <i class="info circle icon"></i>
+                Logged in
+            </p>
+            <button on:click="logout(event)" class="ui basic button">logout</button>
+        </section>
+        {:else}
+        <h2 class="ui header">
+            Log In
+        </h2>
+        <form class="ui large form">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input id="email" autocomplete="email" type="text" name="email" placeholder="E-mail address">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input id="password" autocomplete="current-password" type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <button on:click="login(event)" class="ui fluid large teal submit button">Login</button>
+            </div>
+        </form>
+        {/if}
+    </div>
+</section>
+
+<script>
+    import firebase from 'firebase/app';
+
+    export default {
+        oncreate() {
+            firebase.auth().onAuthStateChanged(user => {
+                console.debug("User auth change", {user});
+                this.set({user});
+            });
+        },
+        methods: {
+            async login(event) {
+                event.preventDefault();
+                await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+                firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val());
+            },
+            async logout(event) {
+                event.preventDefault();
+                firebase.auth().signOut();
+            }
+        }
+    }
+</script>

@@ -28,6 +28,10 @@ module.exports = {
                 }
 			]
 		},
+        externals: {
+            jquery: 'jQuery',
+            'firebase/app': 'firebase'
+        },
 		mode,
 		plugins: [
 			dev && new webpack.HotModuleReplacementPlugin(),

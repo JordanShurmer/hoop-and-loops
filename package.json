@@ -5,11 +5,17 @@
   "engines": {
     "node": "8"
   },
+  "watch": {
+    "build:site": {
+      "patterns": ["src"],
+      "extensions": "js,html"
+    }
+  },
   "scripts": {
     "admin": "cd admin && npm start",
     "dev": "sapper dev",
     "build:admin": "cd admin && npm build",
-    "build:site": "sapper build",
+    "build:site": "cross-env NODE_ENV=development sapper build",
     "build": "npm-r --race build:admin build:site",
     "cy:run": "cypress run",
     "cy:open": "cypress open",
@@ -20,8 +26,8 @@
     "x-postinstall": "run-p --race \"cd admin && npm install\" \"cd semantic && gulp build\"",
     "x-postuninstall": "cd admin && npm uninstall",
     "firebase": "firebase serve",
-    "watch": "watch \"sapper build\" ./src",
-    "start": "run-p --race watch firebase",
+    "watch": "npm-watch build:site",
+    "start": "cross-env run-p --race watch firebase",
     "test": "run-p --race dev cy:run"
   },
   "repository": {
@@ -36,16 +42,18 @@
   "homepage": "https://github.com/JordanShurmer/hoop-and-loops#readme",
   "devDependencies": {
     "concurrently": "^4.0.1",
+    "cross-env": "^5.2.0",
     "npm-run-all": "^4.1.3",
+    "npm-watch": "^0.4.0",
     "sapper": "^0.24.0",
     "semantic-ui": "^2.4.2",
     "svelte": "^2.15.1",
     "svelte-loader": "^2.11.0",
-    "watch": "^1.0.2",
     "webpack": "^4.23.1"
   },
   "dependencies": {
     "express": "^4.16.4",
+    "firebase": "^5.5.7",
     "firebase-admin": "^6.1.0",
     "firebase-functions": "^2.1.0"
   }
