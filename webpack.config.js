@@ -51,7 +51,7 @@ module.exports = {
 			extensions: ['.js', '.json', '.html'],
 			mainFields: ['svelte', 'module', 'browser', 'main']
 		},
-		externals: Object.keys(pkg.dependencies).concat('encoding'),
+		externals: [/firebase.*/],
 		module: {
 			rules: [
 				{

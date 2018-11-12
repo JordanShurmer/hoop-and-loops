@@ -1,0 +1,66 @@
+<div on:click="modal()" class="product card" data-product-id="{product.id}">
+    <div class="ui image">
+        {#if $user && product.id}
+        <div on:click="deleteProduct(event)" class="ui red right corner label"><i class="trash alternate icon"></i></div>
+        {/if}
+        <img src="{product.image}" alt="{product.name}">
+    </div>
+    <div class="content">
+        <div class="header">
+            { product.name }
+            <div class="ui teal tag label">${ product.price }</div>
+        </div>
+        <div class="description">
+            { product.description }
+        </div>
+    </div>
+    {#if product.labels}
+    <div class="extra content">
+        {#each product.labels as category}
+        <span class="ui label">{category.shortLabel}</span>
+        {/each}
+    </div>
+    {/if}
+</div>
+
+<script>
+    export default {
+        data() {
+            return {
+                showModal: false,
+                product: {
+                    image: 'https://via.placeholder.com/250x250?text=%2B',
+                    name: 'New Product',
+                    labels: [],
+                    id: '',
+                    price: '?',
+                    description: '',
+                }
+            }
+        },
+        methods: {
+            modal() {
+                const {product} = this.get();
+                this.store.set({editing: product});
+                window.location.href = '#';
+                window.location.href = '#edit-modal';
+            },
+            async deleteProduct(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                const db = firebase.firestore();
+                const {product} = this.get();
+                console.group(`Delete Product ${product.id}`);
+                await db.doc(`products/${product.id}`).delete();
+                console.info(`%c product ${product.id} deleted`, "color: mediumseagreen; font-weight: bold; font-size: larger");
+                console.groupEnd();
+            }
+        }
+    }
+</script>
+
+<style>
+    .tag.label {
+        float: right;
+    }
+</style>

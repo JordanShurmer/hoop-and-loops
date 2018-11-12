@@ -1,14 +1,16 @@
 <section class="logging-in ui middle aligned center aligned grid">
     <div class="column">
-        {#if user}
-        <section class="ui inverted teal segment">
+        {#if $user}
+        <section class="ui segment">
             <p>
-                <i class="info circle icon"></i>
+                <i class="check icon"></i>
                 Logged in
             </p>
-            <button on:click="logout(event)" class="ui basic button">logout</button>
         </section>
+        <button on:click="logout(event)" class="ui teal button">logout</button>
+
         {:else}
+
         <h2 class="ui header">
             Log In
         </h2>
@@ -17,16 +19,17 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
-                        <input id="email" autocomplete="email" type="text" name="email" placeholder="E-mail address">
+                        <input bind:value="email" id="email" autocomplete="email" type="text" name="email" placeholder="E-mail address">
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input id="password" autocomplete="current-password" type="password" name="password" placeholder="Password">
+                        <input bind:value="password" id="password" autocomplete="current-password" type="password" name="password"
+                               placeholder="Password">
                     </div>
                 </div>
-                <button on:click="login(event)" class="ui fluid large teal submit button">Login</button>
+                <a on:click="login(event)" href="/" class="ui fluid large teal submit button">Login</a>
             </div>
         </form>
         {/if}
@@ -37,17 +40,18 @@
     import firebase from 'firebase/app';
 
     export default {
-        oncreate() {
-            firebase.auth().onAuthStateChanged(user => {
-                console.debug("User auth change", {user});
-                this.set({user});
-            });
+        data() {
+            return {
+                email: '',
+                password: ''
+            }
         },
         methods: {
             async login(event) {
                 event.preventDefault();
+                const {email, password} = this.get();
                 await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
-                firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val());
+                firebase.auth().signInWithEmailAndPassword(email, password);
             },
             async logout(event) {
                 event.preventDefault();

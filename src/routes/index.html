@@ -1,144 +1,46 @@
-<section class="info">
-    <h1>Hoop and Loops</h1>
-    <div class="ui unstackable items">
-        <div class="item">
-            <div class="ui tiny avatar image">
-                <img class="" src="https://semantic-ui.com/images/avatar2/small/molly.png" alt="Bethany">
-                <div class="ui huge horizontal list social links">
-                    <a class="item" href="https://www.instagram.com/hoop.and.loops/" target="_blank">
-                        <i class="instagram icon"></i>
-                    </a>
-                    <a class="item" href="https://www.facebook.com/hoop.and.loops/" target="_blank">
-                        <i class="item facebook square icon"></i>
-                    </a>
-                    <a class="item" href="mailto:hoop.and.loops@gmail.com">
-                        <i class="item envelope icon"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="content">
-                <div class="header">Bethany Shurmer</div>
-                <div class="description">
-                    <p>
-                        Hoop and Loops is a store run by me, Bethany Shurmer. All of our products are custom and handmade. For more information about
-                        Hoop and Loops check out the <a href="about">About</a> page.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+{#if $user}
+<!--The modal which will allow editing of products via the $editing store variable-->
+<EditModal></EditModal>
+{/if}
+
+<SiteInfo></SiteInfo>
 
 <h2 class="ui horizontal divider">Products</h2>
+
 <section class="products ui stackable teal link cards">
 
-    <div class="ui sticky two item big menu">
-        <div class="ui simple dropdown item">
-            Categories
-            <i class="dropdown icon"></i>
-            <div class="menu">
-                {#each categories as category}
-                <div class="item">{category.label}</div>
-                {/each}
-            </div>
-        </div>
-        <div class="item">
-            <i class="shopping cart icon"></i>
-            <span class="cart count">0</span>
-        </div>
-    </div>
+    <MenuBar></MenuBar>
 
-    {#each products as product}
-    <div class="product card">
-        <div class="ui image">
-            <img src="{product.image}" alt="{product.name}">
-        </div>
-        <div class="content">
-            <div class="header">
-                { product.name }
-                <div class="ui teal tag label">${ product.price }</div>
-            </div>
-            <div class="description">
-                { product.description }
-            </div>
-        </div>
-        <div class="extra content">
-            {#each product.labels as category}
-            <span class="ui label">{category.shortLabel}</span>
-            {/each}
-        </div>
-    </div>
+    {#if $user}
+    <Product></Product>
+    {/if}
+
+    {#each $products as product}
+    <Product {product}></Product>
     {/each}
+
 </section>
-
-<style>
-    .info {
-        padding: 1rem;
-    }
-
-    .products {
-        padding-top: 2rem;
-        position: relative;
-    }
-    .fixed.sticky + .product {
-        margin-top: 4rem;
-    }
-
-    .product .tag.label {
-        float: right;
-    }
-
-    .social.links {
-        width: 100%;
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: space-evenly;
-    }
-</style>
 
 <script>
     export default {
-        oncreate() {
-            $('.ui.sticky.menu').sticky();
+        components: {
+            EditModal: '../components/EditModal.html',
+            SiteInfo: '../components/SiteInfo.html',
+            Product: '../components/Product.html',
+            MenuBar: '../components/MenuBar.html',
         },
         data() {
-            return {
-                products: [
-                    {
-                        image: 'https://firebasestorage.googleapis.com/v0/b/hoop-and-loops.appspot.com/o/products%2F2FHkBj6WzkCndsMkoGMOAs%2Fpromo.jpg?alt=media&token=3d29def5-3b87-4926-b9df-27e62c1186e2',
-                        name: 'Necklace',
-                        description: 'A pretty necklace made with my embroidery skillz',
-                        labels: [{
-                            label: 'Embroidery',
-                            shortLabel: 'hoops',
-                        }, {
-                            label: 'Jewelry',
-                            shortLabel: 'bling'
-                        }],
-                        price: 120,
-                    },
-                    {
-                        image: 'https://firebasestorage.googleapis.com/v0/b/hoop-and-loops.appspot.com/o/products%2FeCa3ncq3oEijj5rGYFvd%2Fpromo.jpg?alt=media&token=a72edc34-9507-4a9d-9a29-d4125f9df261',
-                        name: 'Seasons',
-                        description: 'A symbol of change',
-                        labels: [{
-                            label: 'Embroidery',
-                            shortLabel: 'hoops',
-                        }],
-                        price: 40,
-                    }
-                ],
-                categories: [
-                    {
-                        label: 'Embroidery',
-                        shortLabel: 'hoops',
-                    },
-                    {
-                        label: 'Jewelry',
-                        shortLabel: 'bling',
-                    }
-                ]
-            }
         }
     }
 </script>
+
+<style>
+    .products {
+        padding-top: 2rem;
+        position: relative; /*ensure the sticky menu works*/
+    }
+
+    .fixed.sticky + .product {
+        margin-top: 4rem; /*the sticky menu alignment is off :/ */
+    }
+</style>

@@ -1,0 +1,23 @@
+<div class="ui sticky two item menu" style="height: 2rem;">
+    <div class="ui simple dropdown item">
+        Categories
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            {#each $categories as category}
+            <div class="item">{category.label}</div>
+            {/each}
+        </div>
+    </div>
+    <div class="item">
+        <i class="shopping cart icon"></i>
+        <span class="cart count">0</span>
+    </div>
+</div>
+
+<script>
+    export default {
+        oncreate() {
+            $('.ui.sticky.menu').sticky();
+        },
+    }
+</script>

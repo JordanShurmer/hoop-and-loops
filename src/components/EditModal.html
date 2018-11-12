@@ -1,0 +1,159 @@
+{#if $editing}
+<div id="edit-modal" class="hl modal">
+    <div class="ui card">
+        <div class="content">
+            <span class="left floated header">{ $editing.name }</span>
+            <a href="#" class="right floated">
+                <i class="close icon"></i>
+            </a>
+        </div>
+        <div class="image">
+            <img src="{imageSrc}" alt="Upload">
+        </div>
+        <div class="hlform content">
+            <div class="ui equal width form">
+                <div class="field">
+                    <label>Upload image</label>
+                    <input  type=file bind:files=images accept="image/jpeg">
+                </div>
+                <div class="fields">
+                    <div class="field">
+                        <label>Product Name</label>
+                        <input bind:value="$editing.name" name="name" type="text">
+                    </div>
+                    <div class="field">
+                        <label>Labels</label>
+                        <select bind:value="$editing.labels" name="labels" multiple>
+                            {#each $categories as category}
+                            <option value="categories/{category.id}">{ category.label }</option>
+                            {/each}
+                        </select>
+                    </div>
+                    <div class="ui field">
+                        <label>Price</label>
+                        <div class="ui labeled input">
+                            <label class="ui label">$</label>
+                            <input bind:value="$editing.price" type="number" name="price" placeholder="Price">
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Description</label>
+                    <textarea bind:value="$editing.description" name="description" rows="4"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="extra content">
+            <div class="ui fluid buttons">
+                <a class="ui cancel button" href="#">Cancel</a>
+                <div class="or"></div>
+                <a on:click="submit()" class="ui positive approve button" href="#">Submit</a>
+            </div>
+        </div>
+    </div>
+</div>
+{/if}
+
+<script>
+
+    export default {
+        data() {
+            return {
+                images: null,
+                imageData: undefined,
+            }
+        },
+        computed: {
+            imageSrc: ({imageData, $editing}) => imageData || $editing.image || 'https://via.placeholder.com/250x250?text=%2B'
+        },
+        oncreate() {
+            $('select[name=labels]').dropdown();
+        },
+        onupdate({changed, current, previous}) {
+            if (changed.images && current.images) {
+                //Load the image into the browser
+                console.debug(current.images[0]);
+                const reader = new FileReader();
+                reader.onload = (e) => this.set({'imageData': e.target.result});
+                reader.readAsDataURL(current.images[0]);
+            }
+        },
+        methods: {
+            async submit() {
+                //coming from server.js and client.js
+                const db = firebase.firestore();
+                const storageRef = firebase.storage().ref();
+                const {editing} = this.store.get();
+                const imageFile = this.get().images[0];
+                console.debug({imageFile});
+
+                editing.labels = editing.labels.map(category => db.doc(category));
+                try {
+                    if (editing.id) {
+                        console.group('Update Product');
+                        console.debug({editing});
+
+                        db.doc(`products/${editing.id}`).update(editing);
+                        console.info(`%c product ${editing.id} updated`, 'color: mediumseagreen; font-weight: bold; font-size: larger');
+
+                        console.groupEnd();
+                    } else {
+                        console.group('New Product');
+                        console.debug({editing});
+                        let newProductRef = await db.collection("products").add(editing);
+                        console.info('%c partial product created', "color: mediumseagreen; font-weight: bold; font-size: larger");
+                        console.debug(newProductRef);
+
+                        const imageRef = storageRef.child(`products/${newProductRef.id}/promo.${imageFile.name.split('.').pop()}`);
+                        console.debug("Uploading Image to storage", imageRef);
+                        const imageSnapshot = await imageRef.put(imageFile);//, {contentType: imageFile.type})
+                        console.info('%c image uploaded', "color: mediumseagreen; font-weight: bold; font-size: larger");
+                        console.debug(imageSnapshot);
+
+                        const image = await imageRef.getDownloadURL();
+                        console.debug("Setting image reference on new product");
+                        await newProductRef.set({image}, {merge: true});
+
+                        console.info(`%c product created ✔️`, "color: mediumseagreen; font-weight: bold; font-size: larger");
+                        console.groupEnd();
+                    }
+
+                } catch (reason) {
+                    console.error("Unable to create product", reason);
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    .hl.modal {
+        position: fixed;
+        background-color: rgba(0, 0, 0, 0.45);
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.2s;
+    }
+
+    .hl.modal:target {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .hl.modal > div {
+        max-width: 800px;
+        width: 95%;
+        max-height: 90vh;
+        overflow-y: scroll;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
